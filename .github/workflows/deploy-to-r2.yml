@@ -27,7 +27,15 @@ jobs:
           secret_access_key = ${{ secrets.RCLONE_R2_SECRET_ACCESS_KEY }}
           endpoint = ${{ secrets.RCLONE_R2_ENDPOINT }}
           EOF
+      - name: Show current directory and files
+        run: |
+          pwd
+          ls -alh
 
       - name: Upload index.html to R2
         run: |
-          rclone copy index.html r2:${{ secrets.RCLONE_R2_BUCKET }}/ --s3-acl public-read --no-update-modtime --s3-no-head
+          rclone copy index.html r2:${{ secrets.RCLONE_R2_BUCKET }}/ \
+            --s3-acl public-read \
+            --no-update-modtime \
+            --s3-no-head \
+            -vv
