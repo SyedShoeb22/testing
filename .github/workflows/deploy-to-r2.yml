@@ -1,11 +1,7 @@
 name: Upload index.html to Cloudflare R2
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'index.html'
+  workflow_dispatch:
 
 jobs:
   upload:
