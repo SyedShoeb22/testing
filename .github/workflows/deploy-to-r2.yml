@@ -36,10 +36,10 @@ jobs:
           mkdir -p ~/.config/rclone
           echo "${{ secrets.RCLONE_CONFIG }}" > ~/.config/rclone/rclone.conf
 
-      - name: Upload index.html to R2
+      - name: Upload index.html to R2 root
         run: |
-          rclone copy index.html r2:${{ secrets.RCLONE_R2_BUCKET }}/ \
+          rclone copy index.html r2:your-bucket-name/ \
             --s3-acl public-read \
             --no-update-modtime \
-            --s3-no-head \
-            -vv
+            --s3-no-head
+      
