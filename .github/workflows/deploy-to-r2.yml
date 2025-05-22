@@ -1,0 +1,37 @@
+name: Upload index.html to Cloudflare R2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install rclone
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+
+      - name: Set up rclone config for R2
+        run: |
+          mkdir -p ~/.config/rclone
+          cat <<EOF > ~/.config/rclone/rclone.conf
+          [r2]
+          type = s3
+          provider = Cloudflare
+          env_auth = false
+          access_key_id = ${{ secrets.RCLONE_R2_ACCESS_KEY_ID }}
+          secret_access_key = ${{ secrets.RCLONE_R2_SECRET_ACCESS_KEY }}
+          endpoint = ${{ secrets.RCLONE_R2_ENDPOINT }}
+          EOF
+
+      - name: Upload index.html to R2
+        run: |
+          rclone copy index.html r2:${{ secrets.RCLONE_R2_BUCKET }}/ --s3-acl public-read
