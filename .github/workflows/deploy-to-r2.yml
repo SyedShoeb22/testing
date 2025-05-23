@@ -38,7 +38,7 @@ jobs:
 
       - name: Upload index.html to R2 root
         run: |
-          rclone copy index.html r2:your-bucket-name/ \
+          rclone copy index.html r2:migration-dn-proj/ \
             --s3-acl public-read \
             --no-update-modtime \
             --s3-no-head
