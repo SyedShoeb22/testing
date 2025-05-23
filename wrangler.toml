@@ -1,0 +1,11 @@
+name = "r2-site-worker"
+type = "javascript"
+account_id = "cb64433a8ed32af09c501d24b597c27c"
+compatibility_date = "2025-05-23"
+
+main = "src/index.js"  # <- This is the missing line!
+
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "migration-dn-proj"
+preview_bucket_name = "migration-dn-proj"
