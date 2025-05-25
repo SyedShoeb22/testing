@@ -1,0 +1,39 @@
+name: Send Email on Push
+
+on:
+  push:
+    branches:
+      - main  # Change as needed
+
+jobs:
+  send_email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get latest commit message
+        id: commit
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+          echo "message=$COMMIT_MSG" >> $GITHUB_OUTPUT
+
+      - name: Send email via SendGrid
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: |
+          curl -X POST https://api.sendgrid.com/v3/mail/send \
+            -H "Authorization: Bearer $SENDGRID_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "personalizations": [{
+                "to": [{ "email": "syedshoeb8380@gmail.com" }],
+                "subject": "🚀 New Push to Main Branch"
+              }],
+              "from": { "email": "syedabrar7757@gmail.com" },
+              "content": [{
+                "type": "text/plain",
+                "value": "A new commit was pushed to main:\n\n${{ steps.commit.outputs.message }}"
+              }]
+            }'
