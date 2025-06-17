@@ -194,10 +194,16 @@ GITHUB_PATH_ACTIVITY = '' #'your_pdf_path_on_github'
 
 MEET_BASE_URL = "https://meet.nubeera.com"
 MEET_BASE_URL = "https://meet.nubeera.com"
-AWS_ACCESS_KEY_ID = 'AKIAXLJBIZM6LL5PRA7O'
-AWS_SECRET_ACCESS_KEY = 'QfKf9VJs9hCqUbq8+Nd8o7n/JFWIPdOpOSAYZMtd'
-AWS_STORAGE_BUCKET_NAME = 'lxp-static-s3'
-AWS_S3_CUSTOM_DOMAIN = f'lxp-static-s3.s3.us-east-1.amazonaws.com'
+#AWS_ACCESS_KEY_ID = 'AKIAXLJBIZM6LL5PRA7O'
+#AWS_SECRET_ACCESS_KEY = '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'
+#AWS_STORAGE_BUCKET_NAME = 'lxp-static-s3'
+#AWS_S3_CUSTOM_DOMAIN = f'lxp-static-s3.s3.us-east-1.amazonaws.com'
+
+CF_ACCESS_KEY_ID = 'cbfc61b53548bcf857c6189d9a7dbd49'
+CF_SECRET_ACCESS_KEY = '203a93717073100e45c36fc1557ba53cb3d1f721e361aced1bae8972289e025b'
+CF_STORAGE_BUCKET_NAME = 'lxp-static'
+CF_CUSTOM_DOMAIN = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev'
 
 #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.com/static/'
+#STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.com/static/'
+STATIC_URL = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
