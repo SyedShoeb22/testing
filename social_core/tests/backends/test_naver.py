@@ -19,7 +19,7 @@ class NaverOAuth2Test(OAuth2Test):
         'response': {
             'email': 'openapi@naver.com',
             'nickname': 'foobar',
-            'profile_image': 'https://ssl.pstatic.nethttps://lxp-static-s3.s3.us-east-1.amazonaws.com/static/pwe/address/nodata_33x33.gif',
+            'profile_image': 'https://ssl.pstatic.nethttps://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/pwe/address/nodata_33x33.gif',
             'age': '40-49',
             'gender': 'F',
             'id': '32742776',
