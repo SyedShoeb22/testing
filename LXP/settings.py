@@ -206,10 +206,10 @@ CF_STORAGE_BUCKET_NAME = os.getenv("CF_BUCKET_NAME", "lxp-static")
 
 CF_R2_ENDPOINT_URL = "https://11633c353da08a020c1ae70d3ecc106f.r2.cloudflarestorage.com"  # <-- Replace
 
-#CF_ACCESS_KEY_ID = 'cbfc61b53548bcf857c6189d9a7dbd49'
-#CF_SECRET_ACCESS_KEY = '203a93717073100e45c36fc1557ba53cb3d1f721e361aced1bae8972289e025b'
-#CF_STORAGE_BUCKET_NAME = 'lxp-static'
-#CF_CUSTOM_DOMAIN = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev'
+CF_ACCESS_KEY_ID = 'cbfc61b53548bcf857c6189d9a7dbd49'
+CF_SECRET_ACCESS_KEY = '203a93717073100e45c36fc1557ba53cb3d1f721e361aced1bae8972289e025b'
+CF_STORAGE_BUCKET_NAME = 'lxp-static'
+CF_CUSTOM_DOMAIN = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev'
 
 #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 #STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.com/static/'
