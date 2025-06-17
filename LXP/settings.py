@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 from django.contrib.messages import constants as messages
 import os
-from storages.backends.s3boto3 import S3Boto3Storage
+#from storages.backends.s3boto3 import S3Boto3Storage
 
-class StaticStorage(S3Boto3Storage):
-    location = 'static'  # ensures files are uploaded to static/ path
-STATICFILES_STORAGE = 'LXP.storage_backends.StaticStorage'
+#class StaticStorage(S3Boto3Storage):
+ #   location = 'static'  # ensures files are uploaded to static/ path
+#STATICFILES_STORAGE = 'LXP.storage_backends.StaticStorage'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
