@@ -202,7 +202,8 @@ MEET_BASE_URL = "https://meet.nubeera.com"
 # Required for Cloudflare R2
 CF_ACCESS_KEY_ID = os.getenv("CF_ACCESS_KEY_ID")
 CF_SECRET_ACCESS_KEY = os.getenv("CF_SECRET_ACCESS_KEY")
-CF_STORAGE_BUCKET_NAME = os.getenv("CF_STORAGE_BUCKET_NAME")
+CF_STORAGE_BUCKET_NAME = os.getenv("CF_BUCKET_NAME", "lxp-static")
+
 CF_R2_ENDPOINT_URL = "https://11633c353da08a020c1ae70d3ecc106f.r2.cloudflarestorage.com"  # <-- Replace
 
 #CF_ACCESS_KEY_ID = 'cbfc61b53548bcf857c6189d9a7dbd49'
