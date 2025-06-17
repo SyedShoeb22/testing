@@ -213,3 +213,7 @@ CF_R2_ENDPOINT_URL = "https://11633c353da08a020c1ae70d3ecc106f.r2.cloudflarestor
 #STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.com/static/'
 STATIC_URL = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") 
+
+# In settings.py
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_SECURE = False     # Same here
