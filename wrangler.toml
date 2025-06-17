@@ -1,3 +1,4 @@
+account_id = "11633c353da08a020c1ae70d3ecc106f"
 name = "lxp-cdn-worker"
 main = "src/index.js"
 compatibility_date = "2025-06-17"
