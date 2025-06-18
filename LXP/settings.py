@@ -219,9 +219,9 @@ CF_STORAGE_BUCKET_NAME = 'lxp-static'
 CF_CUSTOM_DOMAIN = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev'
 
 #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.comlxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
+#STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.com/statics/'
 #STATIC_URL = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
-STATIC_URL = "https://lxp-cdn-worker.mujahed-mca.workers.devlxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/"
+STATIC_URL = "https://lxp-cdn-worker.mujahed-mca.workers.dev/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") 
 
 SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
