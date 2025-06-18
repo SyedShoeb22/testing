@@ -48,3 +48,4 @@ gitpython
 mysqlclient
 pymysql
 gunicorn
+django-storages
