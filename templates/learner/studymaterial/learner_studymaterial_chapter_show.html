@@ -1,14 +1,14 @@
 {% block content %}
 {%load static%}
 
-<link rel="stylesheet" href="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/plugins/fontawesome/css/fontawesome.min.css">
-<link rel="stylesheet" href="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/plugins/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/plugins/fontawesome/css/all.min.css">
 
-<link rel="stylesheet" href="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/css/feather.css">
+<link rel="stylesheet" href="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/css/feather.css">
 
-<link rel="stylesheet" href="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/getskills/css/style.css">
+<link rel="stylesheet" href="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/getskills/css/style.css">
 <style>
     ul.breadcrumb li+li:before {
       content: '\f061';
@@ -65,14 +65,14 @@
                                 {% endif %}
                             </p>
                             <div>
-                                <img src="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/img/icon/play-icon.svg" alt="">
+                                <img src="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/img/icon/play-icon.svg" alt="">
                             </div>
                             {% else %}
                             <p class="play-intro">
                                 <a>{{t.topic}}</a>
                             </p>
                             <div>
-                                <img src="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/img/icon/lock.svg" alt="">
+                                <img src="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/img/icon/lock.svg" alt="">
                             </div>
                             {% endif %}
                         </li>
@@ -82,7 +82,7 @@
                                 <a href="{% url 'learner-chapterexam' t.chapter_id course_id %}">Exam</a>
                             </p>
                             <div>
-                                <img src="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/img/icon/exam.svg" alt="">
+                                <img src="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/img/icon/exam.svg" alt="">
                             </div>
 
                         </li>
@@ -92,7 +92,7 @@
                         {% for act in activity %}
                         <li>
                             <p class="play-intro">
-                                <img src="lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/img/icon/exam.svg" alt=""><span>
+                                <img src="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/dreamlms/img/icon/exam.svg" alt=""><span>
                                 <a href='https://nbviewer.org/github{{act.urlvalue|cut:"https://github.com"}}'
                                 class="link" data-id="{{ act.id }}">{{act.description}}</a>
                                 <a class="btn btn-primary" href="{% url 'learner-upload-activity' act.id course_id chapter_id  %}"><span

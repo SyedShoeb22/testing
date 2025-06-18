@@ -21,7 +21,7 @@ pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
-#STATIC_DIR=os.path.join(BASE_DIR,'https://lxp-static-s3.s3.us-east-1.amazonaws.comlxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/')
+#STATIC_DIR=os.path.join(BASE_DIR,'https://lxp-static-s3.s3.us-east-1.amazonaws.comhttps://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/')
 #MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -141,7 +141,7 @@ DATE_INPUT_FORMATS = ['%d-%m-%Y', '%Y-%m-%d']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 SITE_ID = 1
-#STATIC_URL = 'lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
+#STATIC_URL = 'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
 DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
 #STATICFILES_DIRS=[
 #STATIC_DIR,
