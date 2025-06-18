@@ -344,8 +344,19 @@ def contactus_view(request):
 
 @login_required
 def getUserTable(request):
-    users = UserSocialAuth.objects.raw('SELECT   SOCIAL_AUTH_USERSOCIALAUTH.ID,  SOCIAL_AUTH_USERSOCIALAUTH.USER_ID,  AUTH_USER.FIRST_NAME,  AUTH_USER.LAST_NAME,  LXPAPP_LEARNERDETAILS.MOBILE FROM  SOCIAL_AUTH_USERSOCIALAUTH  LEFT OUTER JOIN AUTH_USER ON (SOCIAL_AUTH_USERSOCIALAUTH.USER_ID = AUTH_USER.ID)  LEFT OUTER JOIN LXPAPP_LEARNERDETAILS ON (AUTH_USER.ID = LXPAPP_LEARNERDETAILS.LEARNER_ID) ORDER BY  AUTH_USER.FIRST_NAME,  AUTH_USER.LAST_NAME')
+    users = UserSocialAuth.objects.raw('SELECT   SOCIAL_AUTH_USERSOCIALAUTH.ID,  SOCIAL_AUTH_USERSOCIALAUTH.USER_ID,  AUTH_USER.FIRST_NAME,  AUTH_USER.LAST_NAME,  LXPAPP_LEARNERDETAILS.MOBILE FROM  SOCIAL_AUTH_USERSOCIALAUTH  LEFT OUTER JOIN AUTH_USER ON (SOCIAL_AUTH_USERSOCIALAUTH.USER_ID = AUTH_USER.ID)  LEFT OUTER JOIN LXPAPP_LEARNERDETAILS ON (AUTH_USER.ID = LXPAPP_LEARNERDETAILS.LEARNER_ID) ORDER BY  AUTH_USER.FIRST_NAME,  AUTH_USER.LAST_NAME'.lower())
+    # users = UserSocialAuth.objects.select_related('user') \
+    # .prefetch_related('user__learnerdetails') \
+    # .filter(user__is_superuser=False) \
+    # .values(
+    #     'id',
+    #     'user_id',
+    #     'user__first_name',
+    #     'user__last_name',
+    #     'user__learnerdetails__mobile'
+    # ).order_by('user__first_name', 'user__last_name')
     return users
+
 
 @login_required
 def getUserTableWithAdmin(request):
@@ -353,11 +364,11 @@ def getUserTableWithAdmin(request):
     return users
 @login_required
 def admin_view_user_list_view(request):
-    try:    
+    # try:    
         if str(request.session['utype']) == 'admin':
             users = getUserTable(request)
             return render(request,'lxpapp/users/admin_view_user_list.html',{'users':users})
-    except:
+    # except:
         return render(request,'lxpapp/404page.html')
 
     

@@ -1094,11 +1094,11 @@ def staff_add_activity_view(request):
         if str(request.session['utype']) == 'staff':
             if request.method=='POST':
                 activityForm=LXPFORM.ActivityForm(request.POST)
-                subject = request.POST.get('subject')
-                chapter = request.POST.get('chapter')
+                playlist = request.POST.get('playlist')
+                video = request.POST.get('video')
                 urlvalue = request.POST.get('urlvalue')
                 description = request.POST.get('description')
-                activity = LXPModel.Activity.objects.create(subject_id = subject,chapter_id = chapter,urlvalue = urlvalue,description = description)
+                activity = LXPModel.Activity.objects.create(playlist_id = playlist,video_id = video,urlvalue = urlvalue,description = description)
                 activity.save()
                 
             activityForm=LXPFORM.ActivityForm()
@@ -1112,14 +1112,14 @@ def staff_update_activity_view(request,pk):
         if str(request.session['utype']) == 'staff':
             activityForm=LXPFORM.ActivityForm(request.POST)
             if request.method=='POST':
-                subject = request.POST.get('subject')
-                chapter = request.POST.get('chapter')
+                playlist = request.POST.get('playlist')
+                video = request.POST.get('video')
                 urlvalue = request.POST.get('urlvalue')
                 description = request.POST.get('description')
                 
                 activity = LXPModel.Activity.objects.get(id=pk)
-                activity.subject_id = subject
-                activity.chapter_id = chapter
+                activity.playlist_id = playlist
+                activity.video_id = video
                 activity.urlvalue = urlvalue
                 activity.description = description
                 activity.save()
@@ -1156,7 +1156,7 @@ def staff_show_activity_view(request,pk):
     try:
         if str(request.session['utype']) == 'staff':
             details= LXPModel.Activity.objects.all().filter(id=pk)
-            return render(request,'staff/activity/staff_activity_pdfshow.html',{'details':details})
+            return render(request,'staff/activity/staff_activity_urlshow.html',{'details':details})
     except:
         return render(request,'lxpapp/404page.html')
 @login_required
@@ -1189,9 +1189,9 @@ def staff_upload_activity_details_csv_view(request):
                     tochk = str(fields[0]).replace('///',',').replace('\r','')
                     if tochk != oldsub:
                         oldsub = tochk
-                        sub = LXPModel.Subject.objects.all().filter(subject_name__exact = oldsub )
+                        sub = LXPModel.Playlist.objects.all().filter(playlist_name__exact = oldsub )
                         if not sub:
-                            sub = LXPModel.Subject.objects.create(subject_name = oldsub )
+                            sub = LXPModel.Playlist.objects.create(playlist_name = oldsub )
                             sub.save()
                             subid=sub.id
                         else:
@@ -1200,9 +1200,9 @@ def staff_upload_activity_details_csv_view(request):
                     tochk = str(fields[1]).replace('///',',').replace('\r','')
                     if tochk != oldchap:
                         oldchap = tochk
-                        chap = LXPModel.Chapter.objects.all().filter(chapter_name__exact = oldchap,subject_id=subid)
+                        chap = LXPModel.Video.objects.all().filter(video_name__exact = oldchap,playlist_id=subid)
                         if not chap:
-                            chap = LXPModel.Chapter.objects.create(chapter_name = oldchap,subject_id=subid)
+                            chap = LXPModel.Video.objects.create(video_name = oldchap,playlist_id=subid)
                             chap.save()
                             chapid=chap.id
                         else:
@@ -1211,8 +1211,8 @@ def staff_upload_activity_details_csv_view(request):
                     top = str(fields[2]).replace('///',',').replace('\r','')
                     
                     mat = LXPModel.Activity.objects.create(
-                                subject_id=subid,
-                                chapter_id=chapid,
+                                playlist_id=subid,
+                                video_id=chapid,
                                 topic =top,
                                 mtype = mat_type,
                                 urlvalue = mat_url,
@@ -1220,3 +1220,4 @@ def staff_upload_activity_details_csv_view(request):
                                 )
                     mat.save()
     return render(request,'staff/activity/staff_upload_activity_details_csv.html')
+

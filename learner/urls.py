@@ -21,13 +21,17 @@ urlpatterns = [
     path('learner-show-video/<int:subject_id>,/<int:video_id>', views.learner_show_video_view,name='learner-show-video'),
     path('learner-video-sesseionmaterial-list/<subject_id>/<video_id>', views.learner_video_sesseionmaterial_list_view,name='learner-video-sesseionmaterial-list'),
     path('learner-see-sesseionmaterial/<subject_id>/<video_id>/<int:pk>', views.learner_see_sesseionmaterial_view,name='learner-see-sesseionmaterial'),
-
+    
+    path('learner-video-activity-list/<playlist_id>/<video_id>', views.learner_video_activity_list_view,name='learner-video-activity-list'),
+    path('learner-see-activity/<subject_id>/<video_id>/<int:pk>', views.learner_see_activity_view,name='learner-see-activity'),
+    path('learner-upload-activity/<int:activity_id>/<int:course_id>/<int:chapter_id>', views.learner_upload_activity_view,name='learner-upload-activity'),
+    
+    
     path('learner-studymaterial-course', views.learner_studymaterial_course_view,name='learner-studymaterial-course'),
     path('learner-studymaterial-course-chapter/<int:course_id>', views.learner_studymaterial_course_chapter_view,name='learner-studymaterial-course-chapter'),
     path('learner-studymaterial-chapter-show/<int:chapter_id>/<int:course_id>', views.learner_studymaterial_chapter_show_view,name='learner-studymaterial-chapter-show'),
     path('learner-studymaterial-show/<studymaterialtype>/<int:pk>', views.learner_show_studymaterial_view,name='learner-studymaterial-show'),
     path('ajax/save-topic/', views.save_topic, name='ajax_save_topic'),
-    path('learner-upload-activity/<int:activity_id>/<int:course_id>/<int:chapter_id>', views.learner_upload_activity_view,name='learner-upload-activity'),
 
     path('learner-available-course', views.learner_availablecourse_course_view,name='learner-available-course'),
     path('learner-available-course-chapter/<coursename>/<int:course_id>', views.learner_availablecourse_course_chapter_view,name='learner-available-course-chapter'),

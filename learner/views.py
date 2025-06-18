@@ -239,7 +239,8 @@ def learner_video_Course_view(request):
 def learner_video_Course_subject_view(request):
     #try:    
         if str(request.session['utype']) == 'learner':
-            subject = LXPModel.Playlist.objects.raw('SELECT ID AS id, NAME, VTOTAL, Mtotal, SUM(VWATCHED) AS VWatched,((100*VWATCHED)/VTOTAL) as per, THUMBNAIL_URL FROM (SELECT YYY.ID, YYY.NAME, YYY.THUMBNAIL_URL, ( SELECT COUNT(XX.ID) FROM LXPAPP_PLAYLISTITEM XX WHERE XX.PLAYLIST_ID = YYY.ID ) AS Vtotal, ( SELECT COUNT(zz.ID) FROM LXPAPP_sessionmaterial zz WHERE zz.PLAYLIST_ID = YYY.ID ) AS Mtotal, (SELECT COUNT (LXPAPP_VIDEOWATCHED.ID) AS a FROM LXPAPP_PLAYLISTITEM GHGH LEFT OUTER JOIN LXPAPP_VIDEOWATCHED ON ( GHGH.VIDEO_ID = LXPAPP_VIDEOWATCHED.VIDEO_ID ) WHERE GHGH.PLAYLIST_ID = YYY.ID AND LXPAPP_VIDEOWATCHED.LEARNER_ID = ' + str(request.user.id) + ') AS VWatched FROM LXPAPP_BATCHLEARNER INNER JOIN LXPAPP_BATCH ON (LXPAPP_BATCHLEARNER.BATCH_ID = LXPAPP_BATCH.ID) INNER JOIN LXPAPP_BATCHRECORDEDVDOLIST ON (LXPAPP_BATCH.ID = LXPAPP_BATCHRECORDEDVDOLIST.BATCH_ID) INNER JOIN LXPAPP_PLAYLIST YYY ON (LXPAPP_BATCHRECORDEDVDOLIST.PLAYLIST_ID = YYY.ID) WHERE LXPAPP_BATCHLEARNER.LEARNER_ID = ' + str(request.user.id) + ') GROUP BY ID, NAME, VTOTAL ORDER BY NAME')
+            subject = LXPModel.Playlist.objects.raw('SELECT id AS id, name, vtotal, mtotal, SUM(vwatched) AS VWatched, ((100 * vwatched) / vtotal) AS per, thumbnail_url FROM ( SELECT YYY.id, YYY.name, YYY.thumbnail_url, (SELECT COUNT(XX.id) FROM lxpapp_playlistitem XX WHERE XX.playlist_id = YYY.id) AS Vtotal, (SELECT COUNT(zz.id) FROM lxpapp_sessionmaterial zz WHERE zz.playlist_id = YYY.id) AS Mtotal, (SELECT COUNT(lxpapp_videowatched.id) FROM lxpapp_playlistitem GHGH LEFT OUTER JOIN lxpapp_videowatched ON GHGH.video_id = lxpapp_videowatched.video_id WHERE GHGH.playlist_id = YYY.id AND lxpapp_videowatched.learner_id = ' + str(request.user.id) + ') AS VWatched FROM lxpapp_batchlearner INNER JOIN lxpapp_batch ON lxpapp_batchlearner.batch_id = lxpapp_batch.id INNER JOIN lxpapp_batchrecordedvdolist ON lxpapp_batch.id = lxpapp_batchrecordedvdolist.batch_id INNER JOIN lxpapp_playlist YYY ON lxpapp_batchrecordedvdolist.playlist_id = YYY.id WHERE lxpapp_batchlearner.learner_id = ' + str(request.user.id) + ' ) AS derived_table GROUP BY id, name, vtotal, mtotal, thumbnail_url ORDER BY name')
+            
             videocount = LXPModel.LearnerPlaylistCount.objects.all().filter(learner_id = request.user.id)
             countpresent =False
             if videocount:
@@ -249,9 +250,9 @@ def learner_video_Course_subject_view(request):
             wc = 0
             for x in subject:
                 if not videocount:
-                    countsave = LXPModel.LearnerPlaylistCount.objects.create(playlist_id = x.id, learner_id = request.user.id,count =x.Vtotal )
+                    countsave = LXPModel.LearnerPlaylistCount.objects.create(playlist_id = x.id, learner_id = request.user.id,count =x.vtotal )
                     countsave.save()
-                tc += x.Vtotal
+                tc += x.vtotal
                 wc += x.VWatched
             try:
                 per = (100*int(wc))/int(tc)
@@ -268,9 +269,31 @@ def learner_video_list_view(request,subject_id):
 #    try:     
         if str(request.session['utype']) == 'learner':
             subjectname = LXPModel.Playlist.objects.only('name').get(id=subject_id).name
-            list = LXPModel.PlaylistItem.objects.raw("SELECT DISTINCT MAINVID.ID, MAINVID.NAME, IFNULL((SELECT LXPAPP_VIDEOWATCHED.VIDEO_ID FROM LXPAPP_VIDEOWATCHED WHERE LXPAPP_VIDEOWATCHED.LEARNER_ID = " + str(request.user.id) + 
-                                                     " AND LXPAPP_VIDEOWATCHED.VIDEO_ID = MAINVID.ID), 0 ) AS watched, IFNULL((SELECT LXPAPP_VIDEOTOUNLOCK.VIDEO_ID FROM LXPAPP_VIDEOTOUNLOCK WHERE LXPAPP_VIDEOTOUNLOCK.LEARNER_ID = " + 
-                                                     str(request.user.id) + " AND LXPAPP_VIDEOTOUNLOCK.VIDEO_ID = MAINVID.ID), 0) AS unlocked, IFNULL((SELECT LXPAPP_SESSIONMATERIAL.ID FROM LXPAPP_SESSIONMATERIAL WHERE LXPAPP_SESSIONMATERIAL.playlist_id = MAINLIST.PLAYLIST_ID AND LXPAPP_SESSIONMATERIAL.VIDEO_ID = MAINVID.ID), 0) AS matid, IFNULL((SELECT LXPAPP_SESSIONMATERIAL.urlvalue FROM LXPAPP_SESSIONMATERIAL WHERE LXPAPP_SESSIONMATERIAL.playlist_id = MAINLIST.PLAYLIST_ID AND LXPAPP_SESSIONMATERIAL.VIDEO_ID = MAINVID.ID), 0) AS matlink FROM LXPAPP_PLAYLISTITEM MAINLIST INNER JOIN LXPAPP_VIDEO MAINVID ON ( MAINLIST.VIDEO_ID = MAINVID.ID ) WHERE MAINLIST.PLAYLIST_ID = " + str (subject_id) + " AND MAINVID.NAME <> 'Deleted video' ORDER BY MAINVID.NAME")  
+            # list = LXPModel.PlaylistItem.objects.raw(("SELECT DISTINCT MAINVID.ID, MAINVID.NAME, IFNULL((SELECT LXPAPP_VIDEOWATCHED.VIDEO_ID FROM LXPAPP_VIDEOWATCHED WHERE LXPAPP_VIDEOWATCHED.LEARNER_ID = " + str(request.user.id) + 
+            #                                          " AND LXPAPP_VIDEOWATCHED.VIDEO_ID = MAINVID.ID), 0 ) AS watched, IFNULL((SELECT LXPAPP_VIDEOTOUNLOCK.VIDEO_ID FROM LXPAPP_VIDEOTOUNLOCK WHERE LXPAPP_VIDEOTOUNLOCK.LEARNER_ID = " + 
+            #                                          str(request.user.id) + " AND LXPAPP_VIDEOTOUNLOCK.VIDEO_ID = MAINVID.ID), 0) AS unlocked, IFNULL((SELECT LXPAPP_SESSIONMATERIAL.ID FROM LXPAPP_SESSIONMATERIAL WHERE LXPAPP_SESSIONMATERIAL.playlist_id = MAINLIST.PLAYLIST_ID AND LXPAPP_SESSIONMATERIAL.VIDEO_ID = MAINVID.ID), 0) AS matid, IFNULL((SELECT LXPAPP_SESSIONMATERIAL.urlvalue FROM LXPAPP_SESSIONMATERIAL WHERE LXPAPP_SESSIONMATERIAL.playlist_id = MAINLIST.PLAYLIST_ID AND LXPAPP_SESSIONMATERIAL.VIDEO_ID = MAINVID.ID), 0) AS matlink , IFNULL((SELECT LXPAPP_ACTIVITY.ID FROM LXPAPP_ACTIVITY WHERE LXPAPP_ACTIVITY.playlist_id = ACTLIST.PLAYLIST_ID AND LXPAPP_ACTIVITY.VIDEO_ID = ACTVID.ID), 0) AS Actid, IFNULL((SELECT LXPAPP_ACTIVITY.urlvalue FROM LXPAPP_ACTIVITY WHERE LXPAPP_ACTIVITY.playlist_id = ACTLIST.PLAYLIST_ID AND LXPAPP_ACTIVITY.VIDEO_ID = ACTVID.ID), 0) AS Actlink FROM LXPAPP_PLAYLISTITEM MAINLIST INNER JOIN LXPAPP_VIDEO MAINVID ON ( MAINLIST.VIDEO_ID = MAINVID.ID ) WHERE MAINLIST.PLAYLIST_ID = " + str (subject_id) + " AND MAINVID.NAME <> 'Deleted video' ORDER BY MAINVID.NAME")  .lower())
+            list = LXPModel.PlaylistItem.objects.raw("""SELECT DISTINCT 
+                                        MAINVID.id, 
+                                        MAINVID.name, 
+                                        IFNULL(VW.video_id, 0) AS watched, 
+                                        IFNULL(VU.video_id, 0) AS unlocked, 
+                                        IFNULL(SM.id, 0) AS matid, 
+                                        IFNULL(SM.urlvalue, 0) AS matlink, 
+                                        IFNULL(ACT.id, 0) AS Actid, 
+                                        IFNULL(ACT.urlvalue, 0) AS Actlink
+                                    FROM lxpapp_playlistitem MAINLIST
+                                    INNER JOIN lxpapp_video MAINVID ON MAINLIST.video_id = MAINVID.id
+                                    LEFT JOIN lxpapp_videowatched VW 
+                                        ON VW.learner_id = """ + str(request.user.id) + """ AND VW.video_id = MAINVID.id
+                                    LEFT JOIN lxpapp_videotounlock VU 
+                                        ON VU.learner_id = """ + str(request.user.id) + """ AND VU.video_id = MAINVID.id
+                                    LEFT JOIN lxpapp_sessionmaterial SM 
+                                        ON SM.playlist_id = MAINLIST.playlist_id AND SM.video_id = MAINVID.id
+                                    LEFT JOIN lxpapp_activity ACT 
+                                        ON ACT.playlist_id = MAINLIST.playlist_id AND ACT.video_id = MAINVID.id
+                                    WHERE MAINLIST.playlist_id = """ + str(subject_id) + """
+                                    AND MAINVID.name <> 'Deleted video'
+                                    ORDER BY MAINVID.name;""")
             return render(request,'learner/video/learner_video_list.html',{'list':list,'subjectname':subjectname,'subject_id':subject_id})
  #   except:
         return render(request,'lxpapp/404page.html')
@@ -285,34 +308,74 @@ def learner_video_sesseionmaterial_list_view(request,subject_id,video_id):
     except:
         return render(request,'lxpapp/404page.html')
 
+
+from django.db import connection  # only if raw SQL is still needed
+import traceback
 @login_required
-def learner_show_video_view(request,subject_id,video_id):
-    try:    
-        if str(request.session['utype']) == 'learner':
-            subjectname = LXPModel.Playlist.objects.only('name').get(id=subject_id).name
-            Videos=LXPModel.Video.objects.all().filter(id=video_id)
-            vunlock=LXPModel.VideoToUnlock.objects.all().filter(video_id__gt= video_id, playlist_id = subject_id)
-            vunlock=LXPModel.VideoToUnlock.objects.raw('SELECT lxpapp_videotounlock.id FROM  lxpapp_videotounlock  WHERE lxpapp_videotounlock.playlist_id = ' + str(subject_id) + ' and lxpapp_videotounlock.video_id > ' + str(video_id) + ' AND  lxpapp_videotounlock.learner_id = ' + str(request.user.id) )
+def learner_show_video_view(request, subject_id, video_id):
+    try:
+        if str(request.session.get('utype')) != 'learner':
+            return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-            nextvalue = LXPModel.PlaylistItem.objects.raw('SELECT  1 AS id,  lxpapp_playlistitem.video_id FROM  lxpapp_playlistitem  INNER JOIN lxpapp_video ON (lxpapp_playlistitem.video_id = lxpapp_video.id) WHERE  lxpapp_playlistitem.video_id > ' + str(video_id) + ' AND  lxpapp_playlistitem.playlist_id = ' + str(subject_id) + ' ORDER BY  lxpapp_video.name LIMIT 1')
-            topicname =''
-            url=''
-            for x in Videos:
-                videocount = LXPModel.VideoWatched.objects.all().filter(video_id = video_id,learner_id=request.user.id)
-                topicname =x.name
-                url = "https://www.youtube.com/embed/" + x.video_id
-                
-            if not videocount:
-                for x in Videos:
-                    vw=  LXPModel.VideoWatched.objects.create(video_id = video_id,learner_id=request.user.id)
-                    vw.save()
-                    for x in nextvalue:
-                        vu=  LXPModel.VideoToUnlock.objects.create(video_id = x.video_id ,playlist_id = subject_id ,learner_id=request.user.id)
-                        vu.save()
+        subjectname = LXPModel.Playlist.objects.only('name').get(id=subject_id).name
+        video = LXPModel.Video.objects.get(id=video_id)
+        topicname = video.name
+        url = f"https://www.youtube.com/embed/{video.video_id}"
 
-            return render(request,'learner/video/learner_show_video.html',{'topicname':topicname,'url':url,'subjectname':subjectname,'subject_id':subject_id,"video_id":video_id})
-    except:
-        return render(request,'LXPapp/404page.html')
+        # Check if this video has been watched
+        already_watched = LXPModel.VideoWatched.objects.filter(
+            video_id=video_id,
+            learner_id=request.user.id
+        ).exists()
+
+        # If not watched yet, record it and unlock the next video
+        if not already_watched:
+            LXPModel.VideoWatched.objects.create(
+                video_id=video_id,
+                learner_id=request.user.id
+            )
+
+            # Get next video (raw SQL is used here for compatibility with your setup)
+            next_items = LXPModel.PlaylistItem.objects.raw(f'''
+                SELECT 1 AS id, lxpapp_playlistitem.video_id 
+                FROM lxpapp_playlistitem
+                INNER JOIN lxpapp_video ON lxpapp_playlistitem.video_id = lxpapp_video.id
+                WHERE lxpapp_playlistitem.video_id > {video_id}
+                AND lxpapp_playlistitem.playlist_id = {subject_id}
+                ORDER BY lxpapp_video.name
+                LIMIT 1
+            ''')
+
+            for next_item in next_items:
+                LXPModel.VideoToUnlock.objects.get_or_create(
+                    video_id=next_item.video_id,
+                    playlist_id=subject_id,
+                    learner_id=request.user.id
+                )
+
+        # Respond with JSON for AJAX requests
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({
+                'topicname': topicname,
+                'url': url,
+                'subjectname': subjectname,
+            })
+
+        # Fallback for full-page request (optional)
+        return render(request, 'learner/video/learner_show_video.html', {
+            'topicname': topicname,
+            'url': url,
+            'subjectname': subjectname,
+            'subject_id': subject_id,
+            'video_id': video_id,
+        })
+
+    except Exception as e:
+        print("Error in learner_show_video_view:", e)
+        traceback.print_exc()
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'error': 'Something went wrong'}, status=500)
+        return render(request, 'LXPapp/404page.html')
 
 @login_required
 def learner_see_sesseionmaterial_view(request,subject_id,video_id,pk):
@@ -336,7 +399,7 @@ def learner_see_sesseionmaterial_view(request,subject_id,video_id,pk):
                 return render(request,'learner/sessionmaterial/learner_sessionmaterial_pdfshow.html',{'details':details,'subjectname':subjectname,'chaptername':chaptername,'subject_id':subject_id})
     except:
         return render(request,'lxpapp/404page.html')
-
+    
 @login_required
 def learner_studymaterial_course_view(request):
     #try:    
@@ -686,7 +749,29 @@ def learner_upload_activity_view(request,activity_id, course_id, chapter_id):
             response = upload_to_github(github_path, content_base64)
             url = response['content']['html_url']
             
-            pdf_instance =LXPModel.ActivityAnswers( activity_id = activity_id, course_id = course_id, chapter_id = chapter_id, learner_id = request.user.id, file_url = url)
+            pdf_instance =LXPModel.ActivityAnswers( activity_id = activity_id, learner_id = request.user.id, file_url = url)
             pdf_instance.save()
-            messages.success(request, 'PDF uploaded successfully')
+            messages.success(request, 'Answer uploaded successfully')
     return render(request, 'learner/activity/learner_upload_activity.html')
+
+@login_required
+def learner_video_activity_list_view(request,playlist_id,video_id):
+    # try:     
+        if str(request.session['utype']) == 'learner':
+            playlistname = LXPModel.Playlist.objects.only('name').get(id=playlist_id).name
+            list = LXPModel.Activity.objects.all().filter(playlist_id = str (playlist_id),video_id = str (video_id))  
+            return render(request,'learner/video/learner_video_activity_list.html',{'list':list,'playlistname':playlistname,'playlist_id':playlist_id,'video_id':video_id})
+    # except:
+        return render(request,'lxpapp/404page.html')
+
+@login_required
+def learner_see_activity_view(request,subject_id,video_id,pk):
+    try:
+        if str(request.session['utype']) == 'learner':
+            details= LXPModel.Activity.objects.all().filter(id=pk)
+            subjectname = LXPModel.Playlist.objects.only('name').get(id=subject_id).name
+            chaptername = LXPModel.Video.objects.only('name').get(id=video_id).name
+            return render(request,'learner/video/learner_video_activity_urlshow.html',{'details':details,'subjectname':subjectname,'chaptername':chaptername,'subject_id':subject_id,'video_id':video_id})
+            
+    except:
+        return render(request,'lxpapp/404page.html')

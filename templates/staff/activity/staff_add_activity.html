@@ -3,7 +3,7 @@
 {% block content %}
 
 <head>
-	<link rel="stylesheet" href="https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/getskills/css/style.css">
+	<link rel="stylesheet" href="/static/getskills/css/style.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -22,19 +22,19 @@
 	</nav>
 </div>
 <h2 style="text-align:center;">Add Activity</h2>
-<form method="POST" id="activityForm" data-modules-url="{% url 'ajax_load_chapters' %}" autocomplete="off"
+<form method="POST" id="activityForm" data-modules-url="{% url 'ajax_load_videos' %}" autocomplete="off"
 	style="margin:100px;margin-top: 0px;">
 	{%csrf_token%}
 	<div class="form-group">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-xl-6">
-					<label for="subject_name">Subject Name</label>
-					{% render_field activityForm.subject class="form-control"%}
+					<label for="playlist_name">Playlist Name</label>
+					{% render_field activityForm.playlist class="form-control"%}
 				</div>
 				<div class="col-md-6 col-xl-6">
-					<label for="chapter_name">Chapter Name</label>
-					{% render_field activityForm.chapter class="form-control"%}
+					<label for="video_name">Video Name</label>
+					{% render_field activityForm.video class="form-control"%}
 				</div>
 				
 				<div class="col-md-12 col-xl-12">
@@ -79,17 +79,17 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
-	$("#id_subject").change(function () {
+	$("#id_playlist").change(function () {
 		var url = $("#activityForm").attr("data-modules-url");  // get the url of the `load_topics` view
-		var subjectId = $(this).val();  // get the selected subject ID from the HTML input
+		var playlistId = $(this).val();  // get the selected playlist ID from the HTML input
 
 		$.ajax({                       // initialize an AJAX request
-			url: '{% url 'ajax_load_chapters' %}',                    // set the url of the request (= localhost:8000/hr/ajax/load-topics/)
+			url: '{% url 'ajax_load_videos' %}',                    // set the url of the request (= localhost:8000/hr/ajax/load-topics/)
 			data: {
-				'subject': subjectId       // add the subject id to the GET parameters
+				'playlist': playlistId       // add the playlist id to the GET parameters
 			},
 			success: function (data) {   // `data` is the return of the `load_topics` view function
-				$("#id_chapter").html(data);  // replace the contents of the topic input with the data that came from the server
+				$("#id_video").html(data);  // replace the contents of the topic input with the data that came from the server
 			}
 		});
 

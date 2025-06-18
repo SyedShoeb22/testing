@@ -64,42 +64,52 @@
                 <span class="acc-heading">Videos</span>
               </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-              data-bs-parent="#accordionExample">
-              <div class="accordion-body card-body pt-0">
-                {% if list %}
-                  {% for t in list %}
-                  <div class="acc-courses d-flex justify-content-between align-items-center mb-2">
-                    <div>
-                      {% if forloop.first or t.unlocked >= 0 %}
-                      <a href="{% url 'learner-show-video' subject_id t.id %}" class="d-flex align-items-center text-decoration-none">
-                        
-                        <span class="acc-icon me-2">
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 13C3.8 13 3.6 12.95 3.47 12.85C3.33 12.76 3.21 12.63 3.13 12.49C3.04 12.34 3 12.17 3 12V4C3 3.65 3.18 3.33 3.47 3.15C3.62 3.06 3.78 3.01 3.95 3C4.12 2.99 4.29 3.03 4.45 3.11L12.45 7.11C12.61 7.19 12.75 7.32 12.85 7.47C12.95 7.63 13 7.81 13 8C13 8.19 12.95 8.37 12.85 8.53C12.75 8.68 12.61 8.81 12.45 8.89L4.45 12.89C4.31 12.96 4.15 13 4 13Z"
-                              fill="var(--primary)" />
-                          </svg>
-                        </span>
-                        <h6 class="mb-0">{{ t.name }}</h6>
-                      </a>
-                      {% else %}
-                      <span class="text-muted"><i class="fas fa-lock me-2"></i>{{ t.name }}</span>
-                      {% endif %}
-                    </div>
-                    {% if t.matid > 0 %}
-                    <a class="btn btn-sm btn-success" title="Session Materials"
-                      href="{% url 'learner-video-sesseionmaterial-list' subject_id t.id %}">
-                      <i class="far fa-lightbulb"></i>
-                    </a>
-                    {% endif %}
-                  </div>
-                  {% endfor %}
-                {% else %}
-                  <p class="text-muted">No videos available.</p>
-                {% endif %}
-              </div>
-            </div>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+  <div class="accordion-body card-body pt-0">
+
+    {% if list %}
+      {% for t in list %}
+        <div class="acc-courses d-flex justify-content-between align-items-center mb-2">
+          <div class="d-flex align-items-center">
+            {% if forloop.first or t.unlocked >= 0 %}
+              <a href="{% url 'learner-show-video' subject_id t.id %}" class="d-flex align-items-center text-decoration-none">
+                <span class="acc-icon me-2" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 13C3.8 13 3.6 12.95 3.47 12.85C3.33 12.76 3.21 12.63 3.13 12.49C3.04 12.34 3 12.17 3 12V4C3 3.65 3.18 3.33 3.47 3.15C3.62 3.06 3.78 3.01 3.95 3C4.12 2.99 4.29 3.03 4.45 3.11L12.45 7.11C12.61 7.19 12.75 7.32 12.85 7.47C12.95 7.63 13 7.81 13 8C13 8.19 12.95 8.37 12.85 8.53C12.75 8.68 12.61 8.81 12.45 8.89L4.45 12.89C4.31 12.96 4.15 13 4 13Z" fill="var(--primary)" />
+                  </svg>
+                </span>
+                {{ t.name }}
+              </a>
+            {% else %}
+              <span class="text-muted d-flex align-items-center">
+                <i class="fas fa-lock me-2" aria-hidden="true"></i>{{ t.name }}
+              </span>
+            {% endif %}
+          </div>
+
+          <div class="d-flex gap-2">
+            {% if t.matid > 0 %}
+              <a class="btn btn-sm btn-success" title="Session Materials" href="{% url 'learner-video-sesseionmaterial-list' subject_id t.id %}">
+                <i class="far fa-lightbulb" aria-hidden="true"></i>
+                <span class="visually-hidden">Materials</span>
+              </a>
+            {% endif %}
+            {% if t.Actid > 0 %}
+              <a class="btn btn-sm btn-info" title="Session Activities" href="{% url 'learner-video-activity-list' subject_id  t.id %}">
+                <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                <span class="visually-hidden">Activities</span>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-muted">No videos available.</p>
+    {% endif %}
+
+  </div>
+</div>
+
           </div>
         </div>
       </div>

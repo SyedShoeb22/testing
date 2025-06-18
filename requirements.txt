@@ -45,4 +45,4 @@ django-ckeditor
 PyGithub
 PyJWT
 gitpython
-gunicorn
+mysqlclient

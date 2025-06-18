@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 from django.contrib.messages import constants as messages
 import os
 #from storages.backends.s3boto3 import S3Boto3Storage
+import pymysql
 
+pymysql.install_as_MySQLdb()
 #class StaticStorage(S3Boto3Storage):
  #   location = 'static'  # ensures files are uploaded to static/ path
 #STATICFILES_STORAGE = 'LXP.storage_backends.StaticStorage'
@@ -31,7 +33,8 @@ SECRET_KEY = '@k0#p3kidu)yaaa3u1hplxz)f@^6xiy384*(+n@@s5x#1bx@m5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['http://127.0.0.1/:8001','lxp.nubeera.com','*']
+ALLOWED_HOSTS = ['http://127.0.0.1/:8001','lxp.nubeera.com','*',
+                 'https://lxp-django.onrender.com',"lxp-cdn-worker.mujahed-mca.workers.dev"]
 
 
 INSTALLED_APPS = [
@@ -69,7 +72,7 @@ MIDDLEWARE = [
 ]
 CSRF_COOKIE_SECURE=False
 ROOT_URLCONF = 'LXP.urls'
-CSRF_TRUSTED_ORIGINS = ['https://live.nubeera.com','https://*.nubeera.com']
+CSRF_TRUSTED_ORIGINS = ['https://live.nubeera.com','https://*.nubeera.com',"https://lxp-django.onrender.com"]
 
 TEMPLATES = [
     {
@@ -95,10 +98,14 @@ WSGI_APPLICATION = 'LXP.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'LXP.sqlite3'),
-    }
+	    'default': {
+	        'ENGINE': 'django.db.backends.mysql',
+	        'NAME': 'lxp',
+	        'USER': 'lxp',
+	        'PASSWORD': 'Imranalikhan1973',
+	        'HOST': '3.93.23.112',
+	        'PORT': '3306',
+	    }
 }
 
 
@@ -213,9 +220,9 @@ CF_CUSTOM_DOMAIN = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev'
 
 #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 #STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.com/static/'
-STATIC_URL = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
+#STATIC_URL = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
+STATIC_URL = "https://lxp-cdn-worker.mujahed-mca.workers.dev/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") 
 
-# In settings.py
 SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
 CSRF_COOKIE_SECURE = False     # Same here

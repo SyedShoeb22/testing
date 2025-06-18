@@ -84,4 +84,10 @@ urlpatterns = [
     path('staff-delete-activity/<int:pk>', views.staff_delete_activity_view,name='staff-delete-activity'),
     path('staff-show-activity/<int:pk>', views.staff_show_activity_view,name='staff-show-activity'),
     path('staff-upload-activity-details-csv', views.staff_upload_activity_details_csv_view,name='staff-upload-activity-details-csv'),
+      
 ]
+
+
+
+
+

@@ -285,7 +285,8 @@ class PlayListForm(forms.ModelForm):
 class ActivityForm(forms.ModelForm):
     class Meta:
         model = models.Activity
-        fields = ['subject', 'chapter', 'urlvalue', 'description']
+        fields = ['playlist', 'video', 'urlvalue', 'description']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
