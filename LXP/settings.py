@@ -21,7 +21,7 @@ pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
-#STATIC_DIR=os.path.join(BASE_DIR,'https://lxp-static-s3.s3.us-east-1.amazonaws.com/static/')
+#STATIC_DIR=os.path.join(BASE_DIR,'https://lxp-static-s3.s3.us-east-1.amazonaws.comlxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/')
 #MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -141,7 +141,7 @@ DATE_INPUT_FORMATS = ['%d-%m-%Y', '%Y-%m-%d']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 SITE_ID = 1
-#STATIC_URL = '/static/'
+#STATIC_URL = 'lxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
 DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
 #STATICFILES_DIRS=[
 #STATIC_DIR,
@@ -219,9 +219,9 @@ CF_STORAGE_BUCKET_NAME = 'lxp-static'
 CF_CUSTOM_DOMAIN = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev'
 
 #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.com/static/'
+#STATIC_URL = f'https://lxp-static-s3.s3.us-east-1.amazonaws.comlxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
 #STATIC_URL = f'https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/'
-STATIC_URL = "https://lxp-cdn-worker.mujahed-mca.workers.dev/static/"
+STATIC_URL = "https://lxp-cdn-worker.mujahed-mca.workers.devlxp-https://pub-20771ffbfa2343be8b01ca6bf4b7046c.r2.dev/lxp-static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") 
 
 SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
