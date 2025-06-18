@@ -46,3 +46,5 @@ PyGithub
 PyJWT
 gitpython
 mysqlclient
+pymysql
+gunicorn
